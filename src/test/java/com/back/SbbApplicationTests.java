@@ -1,14 +1,18 @@
 package com.back;
 
+import com.back.sbb.answer.entity.Answer;
 import com.back.sbb.answer.repository.AnswerRepository;
 import com.back.sbb.qusetion.entity.Question;
 import com.back.sbb.qusetion.repository.QuestionRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -58,22 +62,49 @@ class SbbApplicationTests {
         assertThat(q.getId()).isEqualTo(1);
 
     }
-//
-//    @Test
-//    @DisplayName("수정")
-//    @Transactional
-//
-//
-//    @Test
-//    @DisplayName("삭제")
-//    @Transactional
-//
-//    @Test
-//    @DisplayName("답변 생성")
-//    @Transactional
-//
-//    @Test
-//    @DisplayName("답변 생성 v2")
-//    @Transactional
-//    @Rollback(value = false)
+
+    @Test
+    @DisplayName("수정")
+    @Transactional
+    void t5(){
+        Question q = questionRepository.findById(1).get();
+        q.setSubject("수정된 제목");
+        questionRepository.save(q);
+
+        Question foundQuestion = questionRepository.findBySubject("수정된 제목").get();
+        assertThat(foundQuestion).isNotNull();
+    }
+
+    @Test
+    @DisplayName("삭제")
+    @Transactional
+    void t6(){
+        Question q = questionRepository.findById(1).get();
+        questionRepository.delete(q);
+        assertThat(questionRepository.count()).isEqualTo(1);
+    }
+
+
+    @Test
+    @DisplayName("답변 생성")
+    @Transactional
+    void t7(){
+        Question q = questionRepository.findById(2).get();
+
+        Answer answer = new Answer();
+        answer.setContent("네");
+        answer.setQuestion(q);
+        answer.setCreateDate(LocalDateTime.now());
+        answerRepository.save(answer);
+    }
+
+    @Test
+    @DisplayName("답변 생성 v2")
+    @Transactional
+    @Rollback(value = false)
+    void t8(){
+        Question q = questionRepository.findById(2).get();
+        q.addAnswer("네");
+        assertThat(q.getAnswers().size()).isEqualTo(1);
+    }
 }

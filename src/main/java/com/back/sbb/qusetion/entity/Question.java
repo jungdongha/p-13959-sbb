@@ -35,5 +35,12 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Answer> answers = new ArrayList<>();
 
-//    subject,content,createdTime,answer,
+    public Answer addAnswer(String content) {
+        Answer answer = new Answer();
+        answer.setContent(content);
+        answer.setCreateDate(LocalDateTime.now());
+        answer.setQuestion(this);
+        answers.add(answer);
+        return answer;
+    }
 }
