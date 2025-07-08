@@ -1,4 +1,4 @@
-package com.back;
+package com.back.global;
 
 
 import com.back.sbb.qusetion.entity.Question;
@@ -25,14 +25,14 @@ public class TestInitData {
     private final QuestionRepository questionRepository;
 
     @Bean
-    ApplicationRunner testInitDataApplicationRunner(){
+    ApplicationRunner testInitDataApplicationRunner() {
         return args -> {
             self.work1();
         };
     }
 
     @Transactional
-    void work1(){
+    void work1() {
         if (questionRepository.count() > 0) return;
 
         Question q1 = new Question();
