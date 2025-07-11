@@ -154,3 +154,10 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: /Users/jeongdong
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 137 more
+2025-07-10 18:42:51.027063+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM ANSWER \000d\000aANSWER [*]QUESTION"; SQL statement:
+SELECT * FROM ANSWER 
+ANSWER QUESTION [42000-232]
+2025-07-10 18:43:08.455856+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM QUESTION QUESTION_ANSWERS [*]ANSWER"; SQL statement:
+SELECT * FROM QUESTION QUESTION_ANSWERS ANSWER [42000-232]

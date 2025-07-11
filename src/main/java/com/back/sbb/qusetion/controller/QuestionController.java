@@ -7,15 +7,11 @@ import com.back.sbb.qusetion.entity.Question;
 import com.back.sbb.qusetion.service.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -24,13 +20,13 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
 
-
-    @GetMapping("/list")
-    public String list(Model model) {
-        List<Question> questionList = questionService.findAll();
-        model.addAttribute("questionList", questionList);
-        return "question_list";
-    }
+//
+//    @GetMapping("/list")
+//    public String list(Model model) {
+//        List<Question> questionList = questionService.findAll();
+//        model.addAttribute("questionList", questionList);
+//        return "question_list";
+//    }
 
     @GetMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
@@ -50,7 +46,12 @@ public class QuestionController {
         }
         questionService.create(questionForm.getSubject(), questionForm.getContent());
         return "redirect:/question/list";
+    }
 
-
+    @GetMapping("/list")
+    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
+        Page<Question> paging = this.questionService.getList(page);
+        model.addAttribute("paging", paging);
+        return "question_list";
     }
 }

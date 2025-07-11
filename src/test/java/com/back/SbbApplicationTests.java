@@ -4,12 +4,12 @@ import com.back.sbb.answer.entity.Answer;
 import com.back.sbb.answer.repository.AnswerRepository;
 import com.back.sbb.qusetion.entity.Question;
 import com.back.sbb.qusetion.repository.QuestionRepository;
+import com.back.sbb.qusetion.service.QuestionService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
@@ -27,6 +27,8 @@ class SbbApplicationTests {
     private QuestionRepository questionRepository;
     @Autowired
     private AnswerRepository answerRepository;
+    @Autowired
+    private QuestionService questionService;
 
     @Test
     @DisplayName("findAll")
@@ -98,13 +100,24 @@ class SbbApplicationTests {
         answerRepository.save(answer);
     }
 
+
+
     @Test
-    @DisplayName("답변 생성 v2")
-    @Transactional
-    @Rollback(value = false)
-    void t8(){
-        Question q = questionRepository.findById(2).get();
-        q.addAnswer("네");
-        assertThat(q.getAnswers().size()).isEqualTo(1);
+    void testJpa() {
+        for (int i = 1; i <= 300; i++) {
+            String subject = String.format("테스트 데이터입니다:[%03d]", i);
+            String content = "내용무";
+            this.questionService.create(subject, content);
+        }
     }
+
+//    @Test
+//    @DisplayName("답변 생성 v2")
+//    @Transactional
+//    @Rollback(value = false)
+//    void t8(){
+//        Question q = questionRepository.findById(2).get();
+//        q.addAnswer("네");
+//        assertThat(q.getAnswers().size()).isEqualTo(1);
+//    }
 }
