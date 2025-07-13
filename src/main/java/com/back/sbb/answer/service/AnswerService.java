@@ -19,7 +19,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final UserRepository userRepository;
 
-    public Answer create(Question question, String content,SiteUser siteUser) {
+    public Answer create(Question question, String content,SiteUser author) {
         Answer answer = new Answer();
         answer.setContent(answer.getContent());
         answer.setQuestion(answer.getQuestion());
@@ -35,6 +35,25 @@ public class AnswerService {
         } else {
             throw new DataNotFoundException("SiteUser not found");
         }
+    }
+
+    public Answer getAnswer(Integer id) {
+        Optional<Answer> answer = this.answerRepository.findById(id);
+        if (answer.isPresent()) {
+            return answer.get();
+        } else {
+            throw new DataNotFoundException("answer not found");
+        }
+    }
+
+    public void modify(Answer answer, String content) {
+        answer.setContent(content);
+        answer.setModifyDate(LocalDateTime.now());
+        this.answerRepository.save(answer);
+    }
+
+    public void delete(Answer answer) {
+        answerRepository.delete(answer);
     }
 
 
