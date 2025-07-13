@@ -41,7 +41,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-}
+
+// https://mvnrepository.com/artifact/com.atlassian.commonmark/commonmark
+    implementation("com.atlassian.commonmark:commonmark:0.2.0")}
 
 tasks.withType<Test> {
     useJUnitPlatform()

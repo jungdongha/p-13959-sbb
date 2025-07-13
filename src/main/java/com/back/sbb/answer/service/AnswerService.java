@@ -25,7 +25,8 @@ public class AnswerService {
         answer.setQuestion(answer.getQuestion());
         answer.setCreateDate(LocalDateTime.now());
         answer.setAuthor(author);
-        return answerRepository.save(answer);
+        answerRepository.save(answer);
+        return answer;
     }
 
     public SiteUser getUser(String username) {
@@ -56,6 +57,10 @@ public class AnswerService {
         answerRepository.delete(answer);
     }
 
+    public void vote(Answer answer, SiteUser siteUser) {
+        answer.getVoter().add(siteUser);
+        this.answerRepository.save(answer);
+    }
 
 
 }
