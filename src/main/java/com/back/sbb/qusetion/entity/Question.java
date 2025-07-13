@@ -2,6 +2,7 @@ package com.back.sbb.qusetion.entity;
 
 
 import com.back.sbb.answer.entity.Answer;
+import com.back.sbb.user.entity.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,9 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Answer> answerList = new ArrayList<>();
+
+    @ManyToOne
+    private SiteUser author;
 
     public Answer addAnswer(String content) {
         Answer answer = new Answer();

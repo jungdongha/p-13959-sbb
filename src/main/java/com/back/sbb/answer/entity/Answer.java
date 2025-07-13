@@ -2,6 +2,7 @@ package com.back.sbb.answer.entity;
 
 
 import com.back.sbb.qusetion.entity.Question;
+import com.back.sbb.user.entity.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,7 @@ public class Answer {
     @ManyToOne //필수.
     private Question question;
 
+    @ManyToOne
+    private SiteUser author;
 
 }
